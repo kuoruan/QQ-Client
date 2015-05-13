@@ -56,11 +56,6 @@ public class WindowUtil {
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				closeButton.setIcon(on);
-			}
-
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				switch (closeType) {
 				case 1:

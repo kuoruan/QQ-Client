@@ -63,6 +63,10 @@ public abstract class Config {
 	 */
 	public static final String LOGIN_BANNER = "image/LoginBanner.png";
 	/**
+	 * 注册窗口BANNER
+	 */
+	public static final String REGISTER_BANNER = "image/RegisterBanner.png";
+	/**
 	 * 点击关闭按钮关闭整个系统
 	 */
 	public static final int CLOSE_SYSTEM = 1;

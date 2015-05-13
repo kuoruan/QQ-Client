@@ -1,12 +1,16 @@
 package com.buaa.view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -48,7 +52,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     }
 
     public LoginWindow(int width, int height) {
-        super(width, height);
+        super(width, height, Config.CLOSE_SYSTEM);
         prepare();
         init();
         addEvent();
@@ -77,7 +81,9 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
         passwdF = new ClientJPasswordField(120, 240, 200, 30);
         this.add(passwdF);
         register = new ClientJLabel("注册帐号", 330, 200, 60, 30, Color.decode(Config.LINK_FONT_COLOR));
+        register.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         forget = new ClientJLabel("忘记密码", 330, 240, 60, 30, Color.decode(Config.LINK_FONT_COLOR));
+        forget.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.add(register);
         this.add(forget);
         loginBtn = new ClientJButton(120, 280, 200, 30, "登　录", 16, Color.decode(Config.BLUE_BUTTON_COLOR), Color.white);
@@ -94,7 +100,14 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
         register.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+                LoginWindow.this.dispose();
+                JDialog regWindow = new RegisterWindow(430, 345, client);
+                regWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        LoginWindow.this.setVisible(true);
+                    }
+                });
             }
         });
     }
@@ -102,34 +115,41 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         loginBtn.setText("登录中。。。");
+        loginBtn.setBackground(Color.decode("#B8CFE5"));
         loginBtn.validate();
-        if (client == null) {
-            client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
-        }
-        user = new User(userTF.getText(), new String(passwdF.getPassword()));
-        JSONObject jsnObj = JSONObject.fromObject(user);
-        client.output(MessageType.LOGIN, jsnObj);
-        String msg = client.input();
-        MessageResult mr = MessageUtil.analyzeMessage(msg);
-        if (mr.isRight()) {
-            switch (mr.getMessageType()) {
-            case MessageType.LOGIN_SUCCESS:
-                break;
-            case MessageType.LOGIN_ERROR:
-                showError("登录失败！");
-                break;
-            case MessageType.LOGIN_AREADY:
-                showError("用户已经登录！");
-                break;
-            case MessageType.ERROR:
-                showError("未知错误，请重试！");
-                break;
-            case MessageType.TIME_OUT:
-                showError("连接服务器超时！");
-                break;
-            default:
-                showError("请重新登录！");
-                break;
+        String username = userTF.getText().trim();
+        String passwd = new String(passwdF.getPassword()).trim();
+        if ("".equals(username) || "".equals(passwd)) {
+            showError("用户名密码不能为空！");
+        } else {
+            if (client == null) {
+                client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
+            }
+            user = new User(username, passwd);
+            JSONObject jsnObj = JSONObject.fromObject(user);
+            client.output(MessageType.LOGIN, jsnObj);
+            String msg = client.input();
+            MessageResult mr = MessageUtil.analyzeMessage(msg);
+            if (mr.isRight()) {
+                switch (mr.getMessageType()) {
+                case MessageType.LOGIN_SUCCESS:
+                    break;
+                case MessageType.LOGIN_ERROR:
+                    showError("登录失败！");
+                    break;
+                case MessageType.LOGIN_AREADY:
+                    showError("用户已经登录！");
+                    break;
+                case MessageType.ERROR:
+                    showError("未知错误，请重试！");
+                    break;
+                case MessageType.TIME_OUT:
+                    showError("连接服务器超时！");
+                    break;
+                default:
+                    showError("请重新登录！");
+                    break;
+                }
             }
         }
     }
@@ -137,5 +157,6 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     private void showError(String errorMsg) {
         error.setText(errorMsg);
         loginBtn.setText("登　录");
+        loginBtn.setBackground(Color.decode(Config.BLUE_BUTTON_COLOR));
     }
 }
