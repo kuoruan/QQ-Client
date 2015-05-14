@@ -132,7 +132,11 @@ public class MainBoard extends ClientJDialog {
         for (User user : users) {
             if (username.equals(user.getAccount())) {
                 this.me = user;
-            } else {
+                break;
+            } 
+        }
+        for (User user : users) {
+            if (!username.equals(user.getAccount())) {
                 friendPanelheight += 64;
                 JPanel friend = new FriendShow(width, 60, user, me, client);
                 friendPanel.add(friend);

@@ -163,8 +163,6 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
                 client.close();
                 break;
             default:
-                showError("请重新登录！");
-                client.close();
                 break;
             }
         }

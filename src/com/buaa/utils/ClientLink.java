@@ -25,7 +25,8 @@ public class ClientLink {
             socket = new Socket(address, port);
             socket.setSoTimeout(Config.SOCKET_TIME_OUT);
             out = socket.getOutputStream();
-            System.out.println("xxxxxxxxxx"+out);
+            in = socket.getInputStream();
+            br = new BufferedReader(new InputStreamReader(in));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -38,9 +39,7 @@ public class ClientLink {
     public void output(int sendType, JSONObject jsonObject) {
         if (out != null) {
             try {
-
                 out.write(jsonToBytes(sendType, jsonObject));
-                System.out.println("aaa" + jsonObject.toString());
             } catch (IOException e) {
                 e.printStackTrace();
                 inputString = MessageType.TIME_OUT + "{}";
@@ -49,10 +48,8 @@ public class ClientLink {
     }
 
     public String input() {
-        if (inputString == null) {
+        if (br != null) {
             try {
-                in = socket.getInputStream();
-                br = new BufferedReader(new InputStreamReader(in));
                 inputString = br.readLine();
             } catch (IOException e) {
                 inputString = MessageType.TIME_OUT + "{}";
@@ -96,5 +93,5 @@ public class ClientLink {
     public void setOut(OutputStream out) {
         this.out = out;
     }
-    
+
 }

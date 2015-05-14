@@ -39,6 +39,7 @@ public class ChatWindow extends JFrame implements ActionListener {
     private Color bgColor = Color.decode(Config.CHAT_WINDOW_BGCOLOR);
     private JButton sendBtn, clearBtn;
     private boolean isContinue = true;
+    private Message msg;
 
     /*
      * public static void main(String[] args) { User me = new User("小明",
@@ -62,13 +63,14 @@ public class ChatWindow extends JFrame implements ActionListener {
             public void run() {
                 while (isContinue) {
                     String msg = client.input();
+                    System.out.println(msg);
                     MessageResult mr = MessageUtil.analyzeMessage(msg);
                     if (mr.isRight()) {
                         showMsg(mr);
                     }
                 }
             }
-        });
+        }).start();
     }
 
     private void init() {
@@ -119,11 +121,7 @@ public class ChatWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String content = inputArea.getText().trim();
-        System.out.println(me);
-        System.out.println(target);
-        Message msg = new Message(content, me.getPid(), target.getPid(), new Date().getTime());
-        System.out.println("发送成功");
-        System.out.println(client);
+        msg = new Message(content, me.getPid(), target.getPid(), new Date().getTime());
         client.output(MessageType.SEND_NORMAL_MESSAGE, JSONObject.fromObject(msg));
     }
 
