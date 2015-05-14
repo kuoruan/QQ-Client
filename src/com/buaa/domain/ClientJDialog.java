@@ -50,7 +50,9 @@ public class ClientJDialog extends JDialog {
         this.closeType = closeType;
         init();
     }
-
+    public ClientJDialog(){
+        
+    }
     /**
      * 初始化窗口并添加动作和部件
      */

@@ -46,6 +46,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     JPasswordField passwdF;
     JButton loginBtn;
     User user;
+    private String username, passwd;
 
     public static void main(String[] args) {
         new LoginWindow(430, 345);
@@ -68,7 +69,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
      * @throws
      */
     private void prepare() {
-        // client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
+        client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
     }
 
     private void init() {
@@ -117,8 +118,8 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
         loginBtn.setText("登录中。。。");
         loginBtn.setBackground(Color.decode("#B8CFE5"));
         loginBtn.validate();
-        String username = userTF.getText().trim();
-        String passwd = new String(passwdF.getPassword()).trim();
+        username = userTF.getText().trim();
+        passwd = new String(passwdF.getPassword()).trim();
         if ("".equals(username) || "".equals(passwd)) {
             showError("用户名密码不能为空！");
         } else {
@@ -133,6 +134,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
             if (mr.isRight()) {
                 switch (mr.getMessageType()) {
                 case MessageType.LOGIN_SUCCESS:
+                    new MainBoard(280, 700, client, username, mr.getJsonString(), Config.CLOSE_WINDOW);
                     break;
                 case MessageType.LOGIN_ERROR:
                     showError("登录失败！");

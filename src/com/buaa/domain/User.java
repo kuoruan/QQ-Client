@@ -1,102 +1,100 @@
 package com.buaa.domain;
 
 public class User {
-	private int pid;// 用户pid
+    private int pid;// 用户pid
 
-	private String account;// 用户帐号
+    private String account;// 用户帐号
 
-	private String password;// 用户密码
+    private String password;// 用户密码
 
-	private String nickName;// 昵称
+    private String nickName;// 昵称
 
-	private long registTime;// 注册时间
+    private long registTime;// 注册时间
 
-	private long lastLoginTime;// 最后一次登录时间
+    private long lastLoginTime;// 最后一次登录时间
 
-	private String friend;// 好友列表
-	
-	private int status;//是否在线，0 离线    1在线
+    private String friend;// 好友列表
 
-	public User() {
-	}
+    private boolean online;// 是否在线，0 离线 1在线
 
-	public User(String account, String password) {
-		this.account = account;
-		this.password = password;
-	}
+    public User() {
+    }
 
-	public int getPid() {
-		return pid;
-	}
+    public User(String account, String password) {
+        this.account = account;
+        this.password = password;
+    }
 
-	public void setPid(int pid) {
-		this.pid = pid;
-	}
+    public int getPid() {
+        return pid;
+    }
 
-	public String getAccount() {
-		return account;
-	}
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
 
-	public void setAccount(String account) {
-		this.account = account;
-	}
+    public String getAccount() {
+        return account;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setAccount(String account) {
+        this.account = account;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getNickName() {
-		return nickName;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
+    public String getNickName() {
+        return nickName;
+    }
 
-	public long getRegistTime() {
-		return registTime;
-	}
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
-	public void setRegistTime(long registTime) {
-		this.registTime = registTime;
-	}
+    public long getRegistTime() {
+        return registTime;
+    }
 
-	public long getLastLoginTime() {
-		return lastLoginTime;
-	}
+    public void setRegistTime(long registTime) {
+        this.registTime = registTime;
+    }
 
-	public void setLastLoginTime(long lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
-	}
+    public long getLastLoginTime() {
+        return lastLoginTime;
+    }
 
-	public String getFriend() {
-		return friend;
-	}
+    public void setLastLoginTime(long lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
 
-	public void setFriend(String friend) {
-		this.friend = friend;
-	}
+    public String getFriend() {
+        return friend;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public void setFriend(String friend) {
+        this.friend = friend;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public boolean isOnline() {
+        return online;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof User){
-			return this.account.equals(((User)obj).getAccount());
-		}
-		return false;
-	}
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
-	
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            return this.account.equals(((User) obj).getAccount());
+        }
+        return false;
+    }
 
 }
