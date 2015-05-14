@@ -24,6 +24,15 @@ public class ClientJDialog extends JDialog {
         init();
     }
 
+    public ClientJDialog(int width, int height, String closeIcon, int closeType) {
+        super();
+        this.width = width;
+        this.height = height;
+        this.closeIcon = closeIcon;
+        this.closeType = closeType;
+        init();
+    }
+
     public ClientJDialog(int x, int y, int width, int height, Window parent, String closeIcon, int closeType) {
         super();
         this.x = x;
@@ -50,9 +59,11 @@ public class ClientJDialog extends JDialog {
         this.closeType = closeType;
         init();
     }
-    public ClientJDialog(){
-        
+
+    public ClientJDialog() {
+
     }
+
     /**
      * 初始化窗口并添加动作和部件
      */

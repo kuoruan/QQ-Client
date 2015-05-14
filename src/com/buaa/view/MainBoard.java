@@ -1,10 +1,22 @@
 package com.buaa.view;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,9 +31,9 @@ import com.buaa.domain.BackGroundPanel;
 import com.buaa.domain.ClientJDialog;
 import com.buaa.domain.ClientJLabel;
 import com.buaa.domain.ClientJTextField;
-import com.buaa.domain.ClientLink;
 import com.buaa.domain.FriendShow;
 import com.buaa.domain.User;
+import com.buaa.utils.ClientLink;
 import com.buaa.utils.DateUtil;
 
 public class MainBoard extends ClientJDialog {
@@ -37,13 +49,14 @@ public class MainBoard extends ClientJDialog {
     private ClientLink client;
     private List<User> users = new ArrayList<User>();
     private int friendPanelheight = 0;
+    private TrayIcon trayIcon;
 
     public static void main(String[] args) {
         new MainBoard(280, 700, null, "张三", null, Config.CLOSE_WINDOW);
     }
 
     public MainBoard(int width, int height, ClientLink client, String username, String userJson, int closeType) {
-        super(width, height, closeType);
+        super(width, height, Config.MAIN_BOARD_CLOSE_IMG, closeType);
         this.width = width;
         this.height = height;
         this.client = client;
@@ -51,13 +64,14 @@ public class MainBoard extends ClientJDialog {
         this.userJson = userJson;
         prepare();
         init();
-        this.setAlwaysOnTop(true);
-        this.setVisible(true);
+        addTray();
+        showFrame();
     }
 
     public MainBoard() {
     }
 
+    @SuppressWarnings("unchecked")
     private void prepare() {
         me = new User("zhangsan1", "2258555566");
         userJson = "{\"userList\":[{\"account\":\"zhangsan1\",\"friend\":\"\",\"lastLoginTime\":1431338285543,\"nickName\":\"小名\",\"online\":false,\"password\":\"123456\",\"pid\":21,\"registTime\":1431338285543}]}";
@@ -93,6 +107,9 @@ public class MainBoard extends ClientJDialog {
 
     private void ScrollList() {
         friendPanel = new JPanel();
+        // 不必使用流式布局
+        // friendPanel.setLayout(new FlowLayout());
+        friendPanel.setBackground(Color.decode(Config.FRIEND_LIST_BGCOLOR));
         showList();
         // 设置friendPanel大小
         friendPanel.setPreferredSize(new Dimension(width - 20, friendPanelheight));
@@ -113,9 +130,65 @@ public class MainBoard extends ClientJDialog {
                 this.me = user;
             } else {
                 friendPanelheight += 60;
-                JLabel friend = new FriendShow(width - 20, 60, user, me, client);
+                JPanel friend = new FriendShow(width, 60, user, me, client);
                 friendPanel.add(friend);
             }
         }
+    }
+
+    private void addTray() {
+        if (SystemTray.isSupported()) {// 判断当前平台是否支持托盘功能
+            // 创建托盘实例
+            SystemTray tray = SystemTray.getSystemTray();
+            // 1.创建Image图像
+            Image image = new ImageIcon(Config.DEFAULT_ICON_16).getImage();
+            // 2.停留提示text
+            String text = "QQ客户端";
+            // 3.弹出菜单popupMenu
+            PopupMenu popMenu = new PopupMenu();
+            MenuItem itmOpen = new MenuItem("打开");
+            itmOpen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    showFrame();
+                }
+            });
+            MenuItem itmHide = new MenuItem("隐藏");
+            itmHide.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    MainBoard.this.setVisible(false);
+                }
+            });
+            MenuItem itmExit = new MenuItem("退出");
+            itmExit.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
+            });
+            popMenu.add(itmOpen);
+            popMenu.add(itmHide);
+            popMenu.add(itmExit);
+
+            // 创建托盘图标
+            trayIcon = new TrayIcon(image, text, popMenu);
+            trayIcon.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        showFrame();
+                    }
+                }
+            });
+            // 将托盘图标加到托盘上
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    private void showFrame() {
+        this.setAlwaysOnTop(true);
+        this.setVisible(true);
     }
 }

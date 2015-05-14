@@ -71,7 +71,7 @@ public class ClientJTextField extends JTextField {
 
     private void init() {
         this.setBounds(x, y, width, height);
-        this.setFont(new Font(Config.DEFAULT_FONT, 1, fontSize));
+        this.setFont(new Font(Config.DEFAULT_FONT, Font.TRUETYPE_FONT, fontSize));
         this.setForeground(fontColor);
         this.setBackground(bgColor);
     }

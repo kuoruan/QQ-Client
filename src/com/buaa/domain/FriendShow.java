@@ -1,15 +1,20 @@
 package com.buaa.domain;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import com.buaa.comman.Config;
+import com.buaa.utils.ClientLink;
 import com.buaa.utils.DateUtil;
 import com.buaa.view.ChatWindow;
 
-public class FriendShow extends JLabel {
+public class FriendShow extends JPanel {
     private int width;
     private int height;
     private User friend;
@@ -44,13 +49,15 @@ public class FriendShow extends JLabel {
     }
 
     private void init() {
-        this.setSize(width, height);
         this.setLayout(null);
-        iconLabel = new ClientJLabel(10, 10, 48, 48, icon);
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode(Config.FRIEND_LIST_BORDER_COLOR)));
+        this.setBackground(Color.decode(Config.FRIEND_LIST_BGCOLOR));
+        this.setPreferredSize(new Dimension(width, height-1));
+        iconLabel = new ClientJLabel(10, 5, 48, 48, icon);
         this.add(iconLabel);
-        friendNameLabel = new ClientJLabel(70, 10, 50, 20, friendName);
+        friendNameLabel = new ClientJLabel(friendName, 70, 5, 50, 20);
         this.add(friendNameLabel);
-        friendLastLoginLabel = new ClientJLabel(friendLastLogin, 70, 50, 180, 20);
+        friendLastLoginLabel = new ClientJLabel(friendLastLogin, 70, 30, 180, 20);
         this.add(friendLastLoginLabel);
     }
 
@@ -59,6 +66,14 @@ public class FriendShow extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new ChatWindow(me, friend, client);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                FriendShow.this.setBackground(Color.decode(Config.FRIEND_LIST_MOUSE_ON_COLOR));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                FriendShow.this.setBackground(Color.decode(Config.FRIEND_LIST_BGCOLOR));
             }
         });
     }

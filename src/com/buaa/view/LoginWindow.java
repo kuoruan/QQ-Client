@@ -25,9 +25,9 @@ import com.buaa.domain.ClientJDialog;
 import com.buaa.domain.ClientJLabel;
 import com.buaa.domain.ClientJPasswordField;
 import com.buaa.domain.ClientJTextField;
-import com.buaa.domain.ClientLink;
 import com.buaa.domain.MessageResult;
 import com.buaa.domain.User;
+import com.buaa.utils.ClientLink;
 import com.buaa.utils.MessageUtil;
 
 /**
@@ -53,7 +53,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     }
 
     public LoginWindow(int width, int height) {
-        super(width, height, Config.CLOSE_SYSTEM);
+        super(width, height, Config.LOGIN_CLOSE_IMG, Config.CLOSE_SYSTEM);
         prepare();
         init();
         addEvent();
@@ -69,7 +69,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
      * @throws
      */
     private void prepare() {
-        client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
+        // client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
     }
 
     private void init() {

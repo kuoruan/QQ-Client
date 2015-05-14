@@ -1,7 +1,7 @@
 package com.buaa.view;
 
-import com.buaa.domain.ClientLink;
 import com.buaa.domain.User;
+import com.buaa.utils.ClientLink;
 
 public class ChatWindow {
     private User me;

@@ -58,7 +58,7 @@ public class ClientJButton extends JButton {
         this.setText(name);
         this.setBorder(null);
         this.setFocusPainted(false);
-        this.setFont(new Font(Config.DEFAULT_FONT, 1, size));
+        this.setFont(new Font(Config.DEFAULT_FONT, Font.BOLD, size));
         this.setBackground(bgColor);
         this.setForeground(fontColor);
     }

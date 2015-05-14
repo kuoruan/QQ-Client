@@ -1,4 +1,4 @@
-package com.buaa.domain;
+package com.buaa.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import com.buaa.comman.Config;
+import com.buaa.comman.MessageType;
 
 import net.sf.json.JSONObject;
 
@@ -20,10 +23,11 @@ public class ClientLink {
     public ClientLink(String address, int port) {
         try {
             client = new Socket(address, port);
+            client.setSoTimeout(Config.SOCKET_TIME_OUT);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            inputString = "10018{}";
+            inputString = MessageType.TIME_OUT + "{}";
         }
     }
 
@@ -33,8 +37,7 @@ public class ClientLink {
                 out = client.getOutputStream();
                 out.write(jsonToBytes(sendType, jsonObject));
             } catch (IOException e) {
-                // e.printStackTrace();
-                inputString = "10018{}";
+                inputString = MessageType.TIME_OUT + "{}";
             }
         }
     }
@@ -46,8 +49,7 @@ public class ClientLink {
                 br = new BufferedReader(new InputStreamReader(in));
                 inputString = br.readLine();
             } catch (IOException e) {
-                // e.printStackTrace();
-                inputString = "10018{}";
+                inputString = MessageType.TIME_OUT + "{}";
             }
         }
         return inputString;

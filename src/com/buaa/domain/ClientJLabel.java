@@ -77,7 +77,7 @@ public class ClientJLabel extends JLabel {
         this.setIcon(new ImageIcon(imgIcon));
         this.setBorder(null);
         this.setBounds(x, y, width, height);
-        this.setFont(new Font(Config.DEFAULT_FONT, 1, size));
+        this.setFont(new Font(Config.DEFAULT_FONT, Font.TRUETYPE_FONT, size));
         this.setForeground(fontColor);
     }
 }

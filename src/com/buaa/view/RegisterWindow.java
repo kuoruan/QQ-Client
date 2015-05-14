@@ -21,9 +21,9 @@ import com.buaa.domain.ClientJDialog;
 import com.buaa.domain.ClientJLabel;
 import com.buaa.domain.ClientJPasswordField;
 import com.buaa.domain.ClientJTextField;
-import com.buaa.domain.ClientLink;
 import com.buaa.domain.MessageResult;
 import com.buaa.domain.User;
+import com.buaa.utils.ClientLink;
 import com.buaa.utils.MessageUtil;
 
 public class RegisterWindow extends ClientJDialog implements ActionListener {
@@ -35,7 +35,7 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
     private ClientLink client;
 
     public RegisterWindow(int width, int height, ClientLink client) {
-        super(width, height, Config.CLOSE_WINDOW);
+        super(width, height, Config.REGISTER_CLOSE_IMG, Config.CLOSE_WINDOW);
         this.client = client;
         init();
         addEvent();

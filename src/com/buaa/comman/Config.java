@@ -10,6 +10,10 @@ public abstract class Config {
      */
     public static final int SERVER_PORT = 5487;
     /**
+     * 连接超时时间 ms
+     */
+    public static final int SOCKET_TIME_OUT = 5000;
+    /**
      * 默认字体
      */
     public static final String DEFAULT_FONT = "微软雅黑";
@@ -25,10 +29,6 @@ public abstract class Config {
      * 发送按钮颜色
      */
     public static final String BLUE_BUTTON_COLOR = "#09A3DC";
-    /**
-     * 登陆窗口关闭按钮默认图标
-     */
-    public static final String LOGIN_CLOSE_MOUSE_OUT = "image/CloseBtn.png";
     /**
      * 默认头像图标 72像素
      */
@@ -56,12 +56,23 @@ public abstract class Config {
     /**
      * 关闭按钮默认图标
      */
-    public static final String CLOSE_DEFAULT_IMG = "image/LoginCloseBtn.png";
-
+    public static final String CLOSE_DEFAULT_IMG = "image/CloseBtn.png";
     /**
-     * 关闭按钮默认点击图标
+     * 默认关闭按钮鼠标悬停图标
      */
     public static final String CLOSE_ON_DEFAULT_IMG = "image/CloseBtnOn.png";
+    /**
+     * 登陆窗口关闭按钮图标
+     */
+    public static final String LOGIN_CLOSE_IMG = "image/LoginCloseBtn.png";
+    /**
+     * 注册窗口关闭按钮图标
+     */
+    public static final String REGISTER_CLOSE_IMG = "image/RegisterCloseBtn.png";
+    /**
+     * 主面板关闭按钮鼠标悬停图标
+     */
+    public static final String MAIN_BOARD_CLOSE_IMG = "image/MainBoardCloseBtn.png";
     /**
      * 登陆窗口BANNER
      */
@@ -86,6 +97,18 @@ public abstract class Config {
      * 主面板搜索背景
      */
     public static final String MAIN_BOARD_SEARCH = "image/MainBoardSearch.png";
+    /**
+     * 好友列表背景颜色
+     */
+    public static final String FRIEND_LIST_BGCOLOR = "#EAF4FC";
+    /**
+     * 好友列表鼠标放上颜色
+     */
+    public static final String FRIEND_LIST_MOUSE_ON_COLOR = "#FCF0C1";
+    /**
+     * 好友列表下边框颜色
+     */
+    public static final String FRIEND_LIST_BORDER_COLOR = "#E8DDB1";
     /**
      * 点击关闭按钮关闭整个系统
      */
