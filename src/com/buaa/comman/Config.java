@@ -4,7 +4,7 @@ public abstract class Config {
     /**
      * 服务器地址
      */
-    public static final String SERVER_ADDRESS = "192.168.0.65";
+    public static final String SERVER_ADDRESS = "192.168.1.105";
     /**
      * 服务器端口
      */
@@ -21,6 +21,10 @@ public abstract class Config {
      * 默认时间格式
      */
     public static final String DEFAULT_DATE_FORMAT = "yyyy年MM月dd日 HH:mm";
+    /**
+     * 默认列表时间颜色
+     */
+    public static final String DEFAULT_DATE_COLOR = "#7F7F7F";
     /**
      * 文字链接按钮颜色
      */
@@ -53,6 +57,11 @@ public abstract class Config {
      * 默认头像图标 16像素
      */
     public static final String DEFAULT_ICON_16 = "image/DefaultIcon_16.png";
+
+    /**
+     * 默认离线头像图标 48像素
+     */
+    public static final String DEFAULT_OFFLINE_ICON_48 = "image/DefaultOfflineIcon_48.png";
     /**
      * 关闭按钮默认图标
      */
@@ -90,6 +99,14 @@ public abstract class Config {
      */
     public static final String MAIN_BOARD_SEARCH_COLOR = "#7EB9EA";
     /**
+     * 聊天窗口背景颜色
+     */
+    public static final String CHAT_WINDOW_BGCOLOR = "#EAECF8";
+    /**
+     * 聊天窗口边框颜色
+     */
+    public static final String CHAT_WINDOW_BORDER_COLOR = "#D3D6E2";
+    /**
      * 主面板底部背景图片
      */
     public static final String MAIN_BOARD_BOTTOM = "image/MainBoardBottom.png";
@@ -97,6 +114,10 @@ public abstract class Config {
      * 主面板搜索背景
      */
     public static final String MAIN_BOARD_SEARCH = "image/MainBoardSearch.png";
+    /**
+     * 主面板搜索背景
+     */
+    public static final String CHAT_WINDOW_BACKGROUND = "image/ChatWindowBackground.png";
     /**
      * 好友列表背景颜色
      */

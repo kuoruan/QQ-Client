@@ -86,6 +86,7 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
         String username = userTF.getText().trim();
         String passwd = new String(passwdFd.getPassword()).trim();
         String repasswd = new String(repasswdFd.getPassword());
@@ -111,11 +112,11 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
                 error.setText("注册成功！");
                 error.setForeground(Color.green);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
+                    this.dispose();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                this.dispose();
                 break;
             case MessageType.REGEDIT_ERROR_SAME_USER:
                 error.setText("注册失败，有相同的用户存在！");
@@ -130,6 +131,7 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
                 error.setText("未知错误");
                 break;
             }
+            client.close();
         }
     }
 }

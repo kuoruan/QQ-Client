@@ -14,7 +14,7 @@ import com.buaa.comman.MessageType;
 import net.sf.json.JSONObject;
 
 public class ClientLink {
-    private Socket client = null;
+    private Socket socket = null;
     private BufferedReader br;
     private InputStream in;
     private OutputStream out;
@@ -22,21 +22,27 @@ public class ClientLink {
 
     public ClientLink(String address, int port) {
         try {
-            client = new Socket(address, port);
-            client.setSoTimeout(Config.SOCKET_TIME_OUT);
+            socket = new Socket(address, port);
+            socket.setSoTimeout(Config.SOCKET_TIME_OUT);
+            out = socket.getOutputStream();
+            System.out.println("xxxxxxxxxx"+out);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+            close();
             inputString = MessageType.TIME_OUT + "{}";
         }
     }
 
     public void output(int sendType, JSONObject jsonObject) {
-        if (inputString == null) {
+        if (out != null) {
             try {
-                out = client.getOutputStream();
+
                 out.write(jsonToBytes(sendType, jsonObject));
+                System.out.println("aaa" + jsonObject.toString());
             } catch (IOException e) {
+                e.printStackTrace();
                 inputString = MessageType.TIME_OUT + "{}";
             }
         }
@@ -45,7 +51,7 @@ public class ClientLink {
     public String input() {
         if (inputString == null) {
             try {
-                in = client.getInputStream();
+                in = socket.getInputStream();
                 br = new BufferedReader(new InputStreamReader(in));
                 inputString = br.readLine();
             } catch (IOException e) {
@@ -70,11 +76,25 @@ public class ClientLink {
             if (br != null) {
                 br.close();
             }
-            if (client != null) {
-                client.close();
+            if (socket != null) {
+                socket.close();
+                socket = null;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public OutputStream getOut() {
+        return out;
+    }
+
+    public void setOut(OutputStream out) {
+        this.out = out;
+    }
+    
 }

@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +50,6 @@ public class MainBoard extends ClientJDialog {
     private int friendPanelheight = 0;
     private TrayIcon trayIcon;
 
-    public static void main(String[] args) {
-        new MainBoard(280, 700, null, "张三", null, Config.CLOSE_WINDOW);
-    }
-
     public MainBoard(int width, int height, ClientLink client, String username, String userJson, int closeType) {
         super(width, height, Config.MAIN_BOARD_CLOSE_IMG, closeType);
         this.width = width;
@@ -73,8 +68,6 @@ public class MainBoard extends ClientJDialog {
 
     @SuppressWarnings("unchecked")
     private void prepare() {
-        me = new User("zhangsan1", "2258555566");
-        userJson = "{\"userList\":[{\"account\":\"zhangsan1\",\"friend\":\"\",\"lastLoginTime\":1431338285543,\"nickName\":\"小名\",\"online\":false,\"password\":\"123456\",\"pid\":21,\"registTime\":1431338285543}]}";
         JSONObject jsonObj = JSONObject.fromObject(userJson);
         JSONArray arr = JSONArray.fromObject(jsonObj.get("userList"));
         users = JSONArray.toList(arr, new User(), new JsonConfig());
@@ -96,7 +89,7 @@ public class MainBoard extends ClientJDialog {
                 20, 14, Color.white);
         banner.add(loginTime);
         this.add(banner);
-        search = new BackGroundPanel(0, 115, width, 67, Config.MAIN_BOARD_SEARCH);
+        search = new BackGroundPanel(0, 115, width, 68, Config.MAIN_BOARD_SEARCH);
         searchTF = new ClientJTextField(10, 3, width - 20, 25, Color.decode(Config.MAIN_BOARD_SEARCH_COLOR));
         searchTF.setBorder(null);
         search.add(searchTF);
@@ -115,36 +108,55 @@ public class MainBoard extends ClientJDialog {
         friendPanel.setPreferredSize(new Dimension(width - 20, friendPanelheight));
         // 创建friendScroll对象，将friendPanel加入进去
         friendScroll = new JScrollPane(friendPanel);
-        friendScroll.setBounds(0, 182, width, height - 60 - 182);
         friendScroll.setBorder(null);
+        friendScroll.setBounds(0, 183, width, height - 60 - 183);
+        // 自动显示滚动条
         friendScroll.setAutoscrolls(true);
+        // 设置鼠标滚动速度
+        friendScroll.getVerticalScrollBar().setUnitIncrement(20);
         // 将friendPanel加入friendScroll
         // friendScroll.getViewport().add(friendPanel);
         // friendScroll.getViewport().setView(friendPanel);
         this.add(friendScroll);
     }
 
+    /**
+     * 遍历并显示好友列表
+     * 
+     * @Title: showList
+     * @param:
+     * @return: void
+     * @throws
+     */
     private void showList() {
         for (User user : users) {
             if (username.equals(user.getAccount())) {
                 this.me = user;
             } else {
-                friendPanelheight += 60;
+                friendPanelheight += 64;
                 JPanel friend = new FriendShow(width, 60, user, me, client);
                 friendPanel.add(friend);
             }
         }
     }
 
+    /**
+     * 添加托盘图标
+     * 
+     * @Title: addTray
+     * @param:
+     * @return: void
+     * @throws
+     */
     private void addTray() {
         if (SystemTray.isSupported()) {// 判断当前平台是否支持托盘功能
             // 创建托盘实例
             SystemTray tray = SystemTray.getSystemTray();
-            // 1.创建Image图像
+            // 创建Image图像
             Image image = new ImageIcon(Config.DEFAULT_ICON_16).getImage();
-            // 2.停留提示text
+            // 停留提示text
             String text = "QQ客户端";
-            // 3.弹出菜单popupMenu
+            // 弹出菜单popupMenu
             PopupMenu popMenu = new PopupMenu();
             MenuItem itmOpen = new MenuItem("打开");
             itmOpen.addActionListener(new ActionListener() {
@@ -187,6 +199,14 @@ public class MainBoard extends ClientJDialog {
         }
     }
 
+    /**
+     * 显示窗体
+     * 
+     * @Title: showFrame
+     * @param:
+     * @return: void
+     * @throws
+     */
     private void showFrame() {
         this.setAlwaysOnTop(true);
         this.setVisible(true);

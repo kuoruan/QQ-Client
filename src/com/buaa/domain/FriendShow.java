@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.buaa.comman.Config;
+import com.buaa.utils.ChatWindowManager;
 import com.buaa.utils.ClientLink;
 import com.buaa.utils.DateUtil;
 import com.buaa.view.ChatWindow;
@@ -21,7 +22,6 @@ public class FriendShow extends JPanel {
     private User me;
     private ClientLink client;
 
-    private boolean online;
     private String friendName, icon;
     private String friendLastLogin;
     private JLabel iconLabel, friendNameLabel, friendLastLoginLabel;
@@ -32,6 +32,7 @@ public class FriendShow extends JPanel {
         this.height = height;
         this.friend = friend;
         this.me = me;
+        this.client = client;
         prepare();
         init();
         addEvent();
@@ -39,11 +40,10 @@ public class FriendShow extends JPanel {
 
     private void prepare() {
         friendName = friend.getNickName();
-        online = friend.isOnline();
-        if (online) {
+        if (friend.isOnline()) {
             icon = Config.DEFAULT_ICON_48;
         } else {
-            icon = Config.DEFAULT_ICON_48;
+            icon = Config.DEFAULT_OFFLINE_ICON_48;
         }
         friendLastLogin = DateUtil.getTime(Config.DEFAULT_DATE_FORMAT, friend.getLastLoginTime());
     }
@@ -52,12 +52,13 @@ public class FriendShow extends JPanel {
         this.setLayout(null);
         this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode(Config.FRIEND_LIST_BORDER_COLOR)));
         this.setBackground(Color.decode(Config.FRIEND_LIST_BGCOLOR));
-        this.setPreferredSize(new Dimension(width, height-1));
+        this.setPreferredSize(new Dimension(width, height - 1));
         iconLabel = new ClientJLabel(10, 5, 48, 48, icon);
         this.add(iconLabel);
-        friendNameLabel = new ClientJLabel(friendName, 70, 5, 50, 20);
+        friendNameLabel = new ClientJLabel(friendName, 70, 5, 150, 20);
         this.add(friendNameLabel);
-        friendLastLoginLabel = new ClientJLabel(friendLastLogin, 70, 30, 180, 20);
+        friendLastLoginLabel = new ClientJLabel(friendLastLogin, 70, 30, 180, 20,
+                Color.decode(Config.DEFAULT_DATE_COLOR));
         this.add(friendLastLoginLabel);
     }
 
@@ -65,12 +66,24 @@ public class FriendShow extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ChatWindow(me, friend, client);
+
+                if (e.getClickCount() == 2) {
+                    if (ChatWindowManager.isOpened(friend)) {
+                        ChatWindow openedWindow = ChatWindowManager.getOpened(friend);
+                        openedWindow.requestFocus();
+                    } else {
+                        ChatWindow c = new ChatWindow(me, friend, client);
+                        ChatWindowManager.addChatWindow(c);
+                    }
+
+                }
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 FriendShow.this.setBackground(Color.decode(Config.FRIEND_LIST_MOUSE_ON_COLOR));
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 FriendShow.this.setBackground(Color.decode(Config.FRIEND_LIST_BGCOLOR));

@@ -117,42 +117,18 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         loginBtn.setText("登录中。。。");
         loginBtn.setBackground(Color.decode("#B8CFE5"));
-        loginBtn.validate();
         username = userTF.getText().trim();
         passwd = new String(passwdF.getPassword()).trim();
         if ("".equals(username) || "".equals(passwd)) {
             showError("用户名密码不能为空！");
         } else {
-            if (client == null) {
-                client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
-            }
+            client = new ClientLink(Config.SERVER_ADDRESS, Config.SERVER_PORT);
             user = new User(username, passwd);
             JSONObject jsnObj = JSONObject.fromObject(user);
             client.output(MessageType.LOGIN, jsnObj);
             String msg = client.input();
             MessageResult mr = MessageUtil.analyzeMessage(msg);
-            if (mr.isRight()) {
-                switch (mr.getMessageType()) {
-                case MessageType.LOGIN_SUCCESS:
-                    new MainBoard(280, 700, client, username, mr.getJsonString(), Config.CLOSE_WINDOW);
-                    break;
-                case MessageType.LOGIN_ERROR:
-                    showError("登录失败！");
-                    break;
-                case MessageType.LOGIN_AREADY:
-                    showError("用户已经登录！");
-                    break;
-                case MessageType.ERROR:
-                    showError("未知错误，请重试！");
-                    break;
-                case MessageType.TIME_OUT:
-                    showError("连接服务器超时！");
-                    break;
-                default:
-                    showError("请重新登录！");
-                    break;
-                }
-            }
+            analysisResult(mr);
         }
     }
 
@@ -160,5 +136,37 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
         error.setText(errorMsg);
         loginBtn.setText("登　录");
         loginBtn.setBackground(Color.decode(Config.BLUE_BUTTON_COLOR));
+    }
+
+    private void analysisResult(MessageResult mr) {
+        if (mr.isRight()) {
+            switch (mr.getMessageType()) {
+            case MessageType.LOGIN_SUCCESS:
+                this.dispose();
+                new MainBoard(280, 700, client, username, mr.getJsonString(), Config.CLOSE_WINDOW);
+                break;
+            case MessageType.LOGIN_ERROR:
+                showError("登录失败！");
+                client.close();
+                System.out.println(client);
+                break;
+            case MessageType.LOGIN_AREADY:
+                showError("用户已经登录！");
+                client.close();
+                break;
+            case MessageType.ERROR:
+                showError("未知错误，请重试！");
+                client.close();
+                break;
+            case MessageType.TIME_OUT:
+                showError("连接服务器超时！");
+                client.close();
+                break;
+            default:
+                showError("请重新登录！");
+                client.close();
+                break;
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.buaa.domain;
 
+import java.awt.Color;
 import java.awt.Window;
 
 import javax.swing.JDialog;
@@ -14,13 +15,15 @@ public class ClientJDialog extends JDialog {
     private int height;
     private Window parent;
     private String closeIcon = Config.CLOSE_DEFAULT_IMG;
+    private Color closeIconColor;
     private int closeType;
 
-    public ClientJDialog(int width, int height, int closeType) {
+    public ClientJDialog(int width, int height, Color closeIconColor, int closeType) {
         super();
         this.width = width;
         this.height = height;
         this.closeType = closeType;
+        this.closeIconColor = closeIconColor;
         init();
     }
 
@@ -77,6 +80,6 @@ public class ClientJDialog extends JDialog {
         // 设置要显示的内容
         // frame.setContentPane(myPane);
         WindowUtil.AddMouseDrag(this);
-        WindowUtil.AddCloseButton(this, closeIcon, Config.CLOSE_ON_DEFAULT_IMG, closeType);
+        WindowUtil.AddCloseButton(this, closeIcon, closeIconColor, closeType);
     }
 }

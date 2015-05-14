@@ -1,5 +1,6 @@
 package com.buaa.utils;
 
+import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,6 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import com.buaa.comman.Config;
 import com.buaa.domain.ClientJButton;
 
 public class WindowUtil {
@@ -37,16 +39,14 @@ public class WindowUtil {
         });
     }
 
-    public static void AddCloseButton(final Window window, final String mouseOutImg, final String mouseOnImg,
-            final int closeType) {
+    public static void AddCloseButton(final Window window, final String mouseOutImg, Color bgColor, final int closeType) {
         final Icon out = new ImageIcon(mouseOutImg);
-        final Icon on = new ImageIcon(mouseOnImg);
-        closeButton = new ClientJButton(window.getWidth() - 30, 0, 30, 29, null);
+        closeButton = new ClientJButton(window.getWidth() - 30, 0, 30, 29, bgColor);
         closeButton.setIcon(new ImageIcon(mouseOutImg));
         closeButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                closeButton.setIcon(on);
+                closeButton.setIcon(new ImageIcon(Config.CLOSE_ON_DEFAULT_IMG));
             }
 
             @Override

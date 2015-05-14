@@ -14,8 +14,8 @@ public class ClientJButton extends JButton {
     private int height;
     private String name;
     private int size = 14;
-    private Color bgColor = Color.decode("#09A3DC");
-    private Color fontColor = Color.getColor("white");
+    private Color bgColor;
+    private Color fontColor = Color.white;
 
     public ClientJButton(int x, int y, int width, int height, String name, int size, Color bgColor, Color fontColor) {
         super();
@@ -50,6 +50,16 @@ public class ClientJButton extends JButton {
         this.width = width;
         this.height = height;
         this.name = name;
+        init();
+    }
+
+    public ClientJButton(int x, int y, int width, int height, Color bgColor) {
+        super();
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.bgColor = bgColor;
         init();
     }
 
