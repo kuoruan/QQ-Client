@@ -44,18 +44,9 @@ public class ChatWindow extends ClientJFrame implements ActionListener {
     private JPanel msgPanel, msg;
     private JLabel targetName, targetIcon;
     private JTextArea inputArea;
-    private Color bgColor = Color.decode(Config.CHAT_WINDOW_BGCOLOR);
     private JButton sendBtn, clearBtn, shake;
     private Point p;
     private int msgHeight = 0;
-
-    // public static void main(String[] args) {
-    // User u1 = new User();
-    // u1.setNickName("小康康");
-    // User u2 = new User();
-    // u2.setNickName("大大大");
-    // new ChatWindow(u1, u2);
-    // }
 
     public ChatWindow(User me, User target) {
         super(580, 500, Color.decode(Config.CHAT_WINDOW_BGCOLOR));
@@ -72,6 +63,7 @@ public class ChatWindow extends ClientJFrame implements ActionListener {
         targetName = new ClientJLabel(target.getNickName(), 70, 20, 150, 20);
         this.add(targetName);
         msgPanel = new JPanel();
+        Color bgColor = Color.decode(Config.CHAT_WINDOW_BGCOLOR);
         // msgPanel.setPreferredSize(new Dimension(560, 276));
         msgPanel.setBackground(bgColor);
         // msgPanel.setSize(560,280);
@@ -169,12 +161,21 @@ public class ChatWindow extends ClientJFrame implements ActionListener {
         msg.add(time);
         msg.add(icon);
         msg.add(content);
+        // 更新高度
         msg.setPreferredSize(new Dimension(560, trueHight));
         msgHeight = msgHeight + trueHight + 5;
         System.out.println(msgHeight);
         freshMsg();
     }
 
+    /**
+     * 刷新面板信息
+     * 
+     * @Title: freshMsg
+     * @param:
+     * @return: void
+     * @throws
+     */
     private void freshMsg() {
         msgPanel.add(msg);
         msgPanel.setPreferredSize(new Dimension(560, msgHeight));

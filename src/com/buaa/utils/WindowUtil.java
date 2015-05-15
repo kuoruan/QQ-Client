@@ -17,7 +17,6 @@ import com.buaa.view.ChatWindow;
 public class WindowUtil {
     private static int xOld = 0;
     private static int yOld = 0;
-    private static JButton closeButton;
 
     public static void AddMouseDrag(final Window window) {
         window.addMouseListener(new MouseAdapter() {
@@ -42,7 +41,7 @@ public class WindowUtil {
 
     public static void AddCloseButton(final Window window, final String mouseOutImg, Color bgColor, final int closeType) {
         final Icon out = new ImageIcon(mouseOutImg);
-        closeButton = new ClientJButton(window.getWidth() - 30, 0, 30, 29, bgColor);
+        final JButton closeButton = new ClientJButton(window.getWidth() - 30, 0, 30, 29, bgColor);
         closeButton.setIcon(new ImageIcon(mouseOutImg));
         closeButton.addMouseListener(new MouseAdapter() {
             @Override

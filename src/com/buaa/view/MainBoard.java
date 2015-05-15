@@ -35,6 +35,8 @@ import com.buaa.domain.FriendShow;
 import com.buaa.domain.OnlineUser;
 import com.buaa.domain.User;
 import com.buaa.utils.DateUtil;
+import com.buaa.utils.GroupUserManager;
+import com.buaa.utils.GroupWindowManager;
 import com.buaa.utils.OnlineUserManager;
 
 @SuppressWarnings("serial")
@@ -127,7 +129,9 @@ public class MainBoard extends ClientJDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    new GroupChatWindow(me);
+                    GroupUserManager.addGroupUser(me);
+                    GroupChatWindow g = new GroupChatWindow(me);
+                    GroupWindowManager.setGroupWindow(g);
                 }
             }
         });

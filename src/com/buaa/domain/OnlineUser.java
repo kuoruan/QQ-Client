@@ -16,9 +16,11 @@ import net.sf.json.JsonConfig;
 
 import com.buaa.comman.MessageType;
 import com.buaa.utils.ChatWindowManager;
+import com.buaa.utils.GroupWindowManager;
 import com.buaa.utils.MainBoardManager;
 import com.buaa.utils.MessageUtil;
 import com.buaa.view.ChatWindow;
+import com.buaa.view.GroupChatWindow;
 import com.buaa.view.MainBoard;
 
 public class OnlineUser implements Runnable {
@@ -109,6 +111,11 @@ public class OnlineUser implements Runnable {
                         break;
                     case MessageType.RECEIVE_SHAKE:// 震屏
                         processShake(mr.getJsonString());
+                        break;
+                    case MessageType.RECEIVE_GROUP_MESSAGE:// 收到群信息
+                        processReceiveGroupMessage(mr.getJsonString());
+                        break;
+                    default:
                         break;
                     }
                 }
@@ -248,6 +255,15 @@ public class OnlineUser implements Runnable {
             chatWindow.addMessage(m, false);
         }
 
+    }
+
+    // 收到组群消息
+    private void processReceiveGroupMessage(String jsonString) {
+        Message m = (Message) JSONObject.toBean(JSONObject.fromObject(jsonString), Message.class);
+        GroupChatWindow g = GroupWindowManager.getGroupWindow();
+        if (g != null) {
+            g.addMessage(m, false);
+        }
     }
 
     public User getUser(int pid) {
