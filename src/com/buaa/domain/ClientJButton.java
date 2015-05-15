@@ -7,6 +7,7 @@ import javax.swing.JButton;
 
 import com.buaa.comman.Config;
 
+@SuppressWarnings("serial")
 public class ClientJButton extends JButton {
     private int x;
     private int y;
@@ -43,7 +44,7 @@ public class ClientJButton extends JButton {
         init();
     }
 
-    public ClientJButton(int x, int y, int width, int height, String name) {
+    public ClientJButton(int x, int y, int width, int height, String name, Color bgColor) {
         super();
         this.x = x;
         this.y = y;

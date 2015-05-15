@@ -1,6 +1,6 @@
 package com.buaa.comman;
 
-public class MessageType {
+public abstract class MessageType {
     // 客户端向服务器端发送
     /**
      * 注册
@@ -30,6 +30,15 @@ public class MessageType {
      * 下线
      */
     public static final int LOGOUT = 6;
+    /**
+     * 获取离线信息
+     */
+    public static final int GET_OFFLINE_MSG = 7;
+    /**
+     * 发送震屏
+     */
+    public static final int SHAKE = 8;
+
     // 服务器端向客户端发送
     /**
      * 注册成功
@@ -103,4 +112,12 @@ public class MessageType {
      * 连接超时
      */
     public static final int TIME_OUT = 10018;
+    /**
+     * 收到离线消息
+     */
+    public static final int RECEIVE_OFFLINE_MSG = 10019;
+    /**
+     * 收到震屏
+     */
+    public static final int RECEIVE_SHAKE = 10020;
 }

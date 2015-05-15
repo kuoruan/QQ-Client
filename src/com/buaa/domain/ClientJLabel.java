@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 
 import com.buaa.comman.Config;
 
+@SuppressWarnings("serial")
 public class ClientJLabel extends JLabel {
     private String name;
     private int x;

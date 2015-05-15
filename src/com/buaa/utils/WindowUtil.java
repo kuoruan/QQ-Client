@@ -12,6 +12,7 @@ import javax.swing.JButton;
 
 import com.buaa.comman.Config;
 import com.buaa.domain.ClientJButton;
+import com.buaa.view.ChatWindow;
 
 public class WindowUtil {
     private static int xOld = 0;
@@ -62,7 +63,9 @@ public class WindowUtil {
                     break;
                 case 2:
                     window.dispose();
-                    break;
+                    if (window instanceof ChatWindow) {
+                        ChatWindowManager.remove((ChatWindow) window);
+                    }
                 default:
                     break;
                 }

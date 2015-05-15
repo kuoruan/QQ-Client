@@ -26,10 +26,11 @@ import com.buaa.domain.User;
 import com.buaa.utils.ClientLink;
 import com.buaa.utils.MessageUtil;
 
+@SuppressWarnings("serial")
 public class RegisterWindow extends ClientJDialog implements ActionListener {
 
-    private JLabel banner, userLb, passwdLb, repasswdLb, error;
-    private JTextField userTF;
+    private JLabel banner, userLb, passwdLb, repasswdLb, error, nickName;
+    private JTextField userTF, nickNameTF;
     private JPasswordField passwdFd, repasswdFd;
     private JButton register, clear;
     private ClientLink client;
@@ -55,19 +56,24 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
         passwdLb.setHorizontalAlignment(SwingConstants.RIGHT);
         repasswdLb = new ClientJLabel("重复密码：", 55, 240, 75, 30);
         repasswdLb.setHorizontalAlignment(SwingConstants.RIGHT);
+        nickName = new ClientJLabel("昵　称：", 55, 280, 75, 30);
+        nickName.setHorizontalAlignment(SwingConstants.RIGHT);
         this.add(userLb);
         this.add(passwdLb);
         this.add(repasswdLb);
+        this.add(nickName);
         // 添加输入框
         userTF = new ClientJTextField(160, 160, 200, 30);
         passwdFd = new ClientJPasswordField(160, 200, 200, 30);
         repasswdFd = new ClientJPasswordField(160, 240, 200, 30);
+        nickNameTF = new ClientJTextField(160, 280, 200, 30);
         this.add(userTF);
         this.add(passwdFd);
         this.add(repasswdFd);
+        this.add(nickNameTF);
         // 插入按钮
-        register = new ClientJButton(160, 280, 95, 30, "注册", 16, Color.decode(Config.BLUE_BUTTON_COLOR), Color.white);
-        clear = new ClientJButton(265, 280, 95, 30, "清空", 16, Color.decode(Config.BLUE_BUTTON_COLOR), Color.white);
+        register = new ClientJButton(160, 320, 95, 30, "注册", 16, Color.decode(Config.BLUE_BUTTON_COLOR), Color.white);
+        clear = new ClientJButton(265, 320, 95, 30, "清空", 16, Color.decode(Config.BLUE_BUTTON_COLOR), Color.white);
         this.add(register);
         this.add(clear);
     }
@@ -80,6 +86,7 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
                 userTF.setText(null);
                 passwdFd.setText(null);
                 repasswdFd.setText(null);
+                nickNameTF.setText(null);
             }
         });
     }
@@ -90,11 +97,12 @@ public class RegisterWindow extends ClientJDialog implements ActionListener {
         String username = userTF.getText().trim();
         String passwd = new String(passwdFd.getPassword()).trim();
         String repasswd = new String(repasswdFd.getPassword());
+        String nick = nickNameTF.getText().trim();
         if ("".equals(username) || "".equals(passwd) || "".equals(repasswd)) {
             error.setText("注册失败，帐号密码不能为空!");
         } else {
             if (repasswd.equals(passwd)) {
-                JSONObject jsnObj = JSONObject.fromObject(new User(username, passwd));
+                JSONObject jsnObj = JSONObject.fromObject(new User(username, passwd, nick));
                 client.output(MessageType.REGEDIT, jsnObj);
                 showMsg(client.input());
 

@@ -30,4 +30,7 @@ public class ChatWindowManager {
         }
         return null;
     }
+    public static void remove(ChatWindow c) {
+        list.remove(c);
+    }
 }

@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.buaa.comman.Config;
 import com.buaa.comman.MessageType;
 
 import net.sf.json.JSONObject;
@@ -23,7 +22,6 @@ public class ClientLink {
     public ClientLink(String address, int port) {
         try {
             socket = new Socket(address, port);
-            socket.setSoTimeout(Config.SOCKET_TIME_OUT);
             out = socket.getOutputStream();
             in = socket.getInputStream();
             br = new BufferedReader(new InputStreamReader(in));

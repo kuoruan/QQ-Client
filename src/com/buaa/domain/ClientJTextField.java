@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 
 import com.buaa.comman.Config;
 
+@SuppressWarnings("serial")
 public class ClientJTextField extends JTextField {
     private int x;
     private int y;

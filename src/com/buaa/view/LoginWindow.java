@@ -26,9 +26,12 @@ import com.buaa.domain.ClientJLabel;
 import com.buaa.domain.ClientJPasswordField;
 import com.buaa.domain.ClientJTextField;
 import com.buaa.domain.MessageResult;
+import com.buaa.domain.OnlineUser;
 import com.buaa.domain.User;
 import com.buaa.utils.ClientLink;
+import com.buaa.utils.MainBoardManager;
 import com.buaa.utils.MessageUtil;
+import com.buaa.utils.OnlineUserManager;
 
 /**
  * 登录窗口
@@ -38,6 +41,7 @@ import com.buaa.utils.MessageUtil;
  * @date: 2015年5月13日 下午9:36:04
  *
  */
+@SuppressWarnings("serial")
 public class LoginWindow extends ClientJDialog implements ActionListener {
 
     ClientLink client;
@@ -102,7 +106,7 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 LoginWindow.this.dispose();
-                JDialog regWindow = new RegisterWindow(430, 345, client);
+                JDialog regWindow = new RegisterWindow(430, 380, client);
                 regWindow.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosed(WindowEvent e) {
@@ -115,8 +119,14 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        loginBtn.setText("登录中。。。");
-        loginBtn.setBackground(Color.decode("#B8CFE5"));
+        new Thread(new Runnable() {
+            public void run() {
+                loginBtn.setText("登录中。。。");
+                loginBtn.setBackground(Color.decode("#B8CFE5"));
+                loginBtn.repaint();
+                loginBtn.validate();
+            }
+        }).start();
         username = userTF.getText().trim();
         passwd = new String(passwdF.getPassword()).trim();
         if ("".equals(username) || "".equals(passwd)) {
@@ -141,12 +151,21 @@ public class LoginWindow extends ClientJDialog implements ActionListener {
     private void analysisResult(MessageResult mr) {
         if (mr.isRight()) {
             switch (mr.getMessageType()) {
+            // 登录成功
             case MessageType.LOGIN_SUCCESS:
                 this.dispose();
-                new MainBoard(280, 700, client, username, mr.getJsonString(), Config.CLOSE_WINDOW);
+                // 创建登录用户信息
+                OnlineUser onlineUser = new OnlineUser(username, mr.getJsonString(), client.getSocket());
+                new Thread(onlineUser).start();
+                // 将用户信息添加至在线用户管理器中
+                OnlineUserManager.addOnlineUser(onlineUser);
+                // 创建主面板
+                MainBoard board = new MainBoard(280, 700, OnlineUserManager.getUser(username), Config.CLOSE_WINDOW);
+                // 将主面板添加到主面板管理器中
+                MainBoardManager.addMainBoard(board);
                 break;
             case MessageType.LOGIN_ERROR:
-                showError("登录失败！");
+                showError("登录失败,密码错误！");
                 client.close();
                 System.out.println(client);
                 break;

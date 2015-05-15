@@ -25,6 +25,13 @@ public class User {
         this.password = password;
     }
 
+    public User(String account, String password, String nickName) {
+        super();
+        this.account = account;
+        this.password = password;
+        this.nickName = nickName;
+    }
+
     public int getPid() {
         return pid;
     }

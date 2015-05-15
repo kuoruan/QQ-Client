@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import com.buaa.comman.Config;
 import com.buaa.utils.WindowUtil;
 
+@SuppressWarnings("serial")
 public class ClientJDialog extends JDialog {
     private int x;
     private int y;

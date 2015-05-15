@@ -4,7 +4,8 @@ public abstract class Config {
     /**
      * 服务器地址
      */
-    public static final String SERVER_ADDRESS = "192.168.1.105";
+    //public static final String SERVER_ADDRESS = "192.168.0.40";
+    public static final String SERVER_ADDRESS = "182.92.234.251";
     /**
      * 服务器端口
      */
@@ -20,7 +21,11 @@ public abstract class Config {
     /**
      * 默认时间格式
      */
-    public static final String DEFAULT_DATE_FORMAT = "yyyy年MM月dd日 HH:mm";
+    public static final String LOGIN_DATE_FORMAT = "yyyy年MM月dd日 HH:mm";
+    /**
+     * 默认时间格式
+     */
+    public static final String MSG_DATE_FORMAT = "yyyy年MM月dd日 HH:mm:ss";
     /**
      * 默认列表时间颜色
      */
@@ -115,9 +120,17 @@ public abstract class Config {
      */
     public static final String MAIN_BOARD_SEARCH = "image/MainBoardSearch.png";
     /**
-     * 主面板搜索背景
+     * 聊天窗口背景背景
      */
     public static final String CHAT_WINDOW_BACKGROUND = "image/ChatWindowBackground.png";
+    /**
+     * 主面板组群按钮
+     */
+    public static final String MAIN_BOARD_GROUP_BTN = "image/MainBoardGroup.png";
+    /**
+     * 主面板组群按钮悬停
+     */
+    public static final String MAIN_BOARD_GROUP_BTN_ON = "image/MainBoardGroupOn.png";
     /**
      * 好友列表背景颜色
      */
@@ -138,4 +151,12 @@ public abstract class Config {
      * 点击关闭按钮关闭当前窗口
      */
     public static final int CLOSE_WINDOW = 2;
+    /**
+     * 震动频率
+     */
+    public static final int SHAKE_TIME = 50;
+    /**
+     * 震动次数
+     */
+    public static final int SHAKE_TIMES = 5;
 }
