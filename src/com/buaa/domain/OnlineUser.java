@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -159,7 +161,15 @@ public class OnlineUser implements Runnable {
         User fromUser = getUser(m.getFromPid());
         if (ChatWindowManager.isOpened(fromUser)) {
             ChatWindow cw = ChatWindowManager.getOpened(fromUser);
-            cw.shake();
+            System.out.println("正常状态:" + cw.isShowing());
+            if (cw.isShowing()) {
+                cw.shake();
+            }
+            System.out.println("最小化:" + cw.isMinimumSizeSet());
+            if (cw.isMinimumSizeSet()) {
+                cw.setExtendedState(JFrame.NORMAL);
+                cw.shake();
+            }
         } else {// 如果窗口没打开
             ChatWindow chatWindow = new ChatWindow(user, fromUser);
             ChatWindowManager.addChatWindow(chatWindow);
@@ -231,11 +241,11 @@ public class OnlineUser implements Runnable {
         User fromUser = getUser(m.getFromPid());
         if (ChatWindowManager.isOpened(fromUser)) {
             ChatWindow cw = ChatWindowManager.getOpened(fromUser);
-            cw.addMessage(m);
+            cw.addMessage(m, false);
         } else {// 如果窗口没打开
             ChatWindow chatWindow = new ChatWindow(user, fromUser);
             ChatWindowManager.addChatWindow(chatWindow);
-            chatWindow.addMessage(m);
+            chatWindow.addMessage(m, false);
         }
 
     }

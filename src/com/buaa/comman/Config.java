@@ -4,8 +4,8 @@ public abstract class Config {
     /**
      * 服务器地址
      */
-    //public static final String SERVER_ADDRESS = "192.168.0.40";
-    public static final String SERVER_ADDRESS = "182.92.234.251";
+    public static final String SERVER_ADDRESS = "127.0.0.1";
+    //public static final String SERVER_ADDRESS = "182.92.234.251";
     /**
      * 服务器端口
      */
@@ -18,6 +18,10 @@ public abstract class Config {
      * 默认字体
      */
     public static final String DEFAULT_FONT = "微软雅黑";
+    /**
+     * 聊天信息字体大小
+     */
+    public static final int CHAT_FONT_SIZE = 14;
     /**
      * 默认时间格式
      */
